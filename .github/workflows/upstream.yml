@@ -1,0 +1,38 @@
+name: Upstream Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag1:
+        description: "Tag for upstream test run"
+        required: true
+        type: string
+
+jobs:
+  run-upstream-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Cucumber Tests (TAG1)
+        run: |
+          echo "Running with TAG1: ${{ inputs.tag1 }}"
+          mvn test -Dcucumber.filter.tags="${{ inputs.tag1 }}"
+
+      - name: Trigger Downstream Workflow
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "downstream.yml",
+              ref: "main",
+              inputs: {
+                tag2: "@regression" // 👈 downstream tag
+              }
+            })
+
+      - name: Done
+        run: echo "Downstream workflow triggered."
