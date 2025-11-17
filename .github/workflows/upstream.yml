@@ -33,7 +33,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "downstream.yml",
-              ref: "main",
+              ref: "master",
               inputs: {
                 tag2: "@Subtract"
               }
