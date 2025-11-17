@@ -1,5 +1,10 @@
 name: Upstream Workflow
 
+permissions:
+  actions: write
+  contents: read
+
+
 on:
   workflow_dispatch:
     inputs:
