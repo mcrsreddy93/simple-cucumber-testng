@@ -30,7 +30,7 @@ jobs:
               workflow_id: "downstream.yml",
               ref: "main",
               inputs: {
-                tag2: "@regression" // 👈 downstream tag
+                tag2: "@Subtract"
               }
             })
 

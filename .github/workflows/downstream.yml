@@ -1,0 +1,24 @@
+name: Downstream Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag2:
+        description: "Tag for downstream test run"
+        required: true
+        type: string
+
+jobs:
+  run-downstream-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Cucumber Tests (TAG2)
+        run: |
+          echo "Running with TAG2: ${{ inputs.tag2 }}"
+          mvn test -Dcucumber.filter.tags="${{ inputs.tag2 }}"
+
+      - name: Done
+        run: echo "Downstream execution completed."
